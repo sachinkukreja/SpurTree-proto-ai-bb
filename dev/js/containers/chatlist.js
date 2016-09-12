@@ -10,15 +10,17 @@ class ChatList extends Component {
     }
 
     renderList() {
+
         if (this.props.chats !== null) {
-            return this.props.chats.map(function (object, i) {
+            return this.props.chats.map((object, i)=> {
                 return (
-                    <li key={i}><p>{object}<span className="clearContext" onClick={()=> this.clearContext()}>x</span>
-                    </p></li>);
+                    <li key={i}><p>{object}<span className="clearcontext" onClick={()=>this.clearContext()}>x</span>
+                    </p></li>
+                );
             });
         }
     }
-    
+
     render() {
         if (!this.props.chats || this.props.chats.length <= 0) {
             return (<div></div>)

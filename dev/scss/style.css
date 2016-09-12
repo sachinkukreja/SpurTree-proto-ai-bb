@@ -117,10 +117,15 @@ h2 {
     float: right;
 }
 
-.clearContext {
+.chatlist li p {
+    padding: 0;
+    margin: 5px;
+}
+
+.clearcontext {
     background: #cccccc;
     border-radius: 50px;
-    margin-left:;
+    margin-left: 10px;
 }
 
 .category-list li {

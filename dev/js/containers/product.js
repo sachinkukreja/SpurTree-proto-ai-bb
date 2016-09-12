@@ -1,7 +1,7 @@
 import React, {Component} from 'react' ;
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {FetchProducts, FetchProductsForCategory} from  '../actions/index';
+import {FetchProducts, FetchProductsForCategory, FetchProductsWithAttributes} from  '../actions/index';
 
 class Product extends Component {
 
@@ -27,10 +27,15 @@ class Product extends Component {
 
     componentDidMount() {
 
+
         if (this.props.location.query.id) {
-            this.props.FetchProductsForCategory(this.props.location.query.id);
+            this.props.FetchProductsForCategory(this.props.location.query.id, this.props.location.query.sort);
         } else if (this.props.location.query.search) {
-            this.props.FetchProducts(this.props.location.query.search);
+            if (Object.keys(this.props.location.query).length == 1)
+                this.props.FetchProducts(this.props.location.query.search, this.props.location.query.sort);
+            else {
+                this.props.FetchProductsWithAttributes(this.props.location.query, this.props.location.query.sort);
+            }
         }
 
 
@@ -60,7 +65,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-    return bindActionCreators(Object.assign({}, {FetchProductsForCategory: FetchProductsForCategory}, {FetchProducts: FetchProducts}), dispatch);
+    return bindActionCreators(Object.assign({}, {FetchProductsForCategory: FetchProductsForCategory}, {FetchProducts: FetchProducts}, {FetchProductsWithAttributes: FetchProductsWithAttributes}), dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Product);

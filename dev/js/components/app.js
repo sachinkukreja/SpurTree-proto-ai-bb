@@ -14,7 +14,7 @@ export default React.createClass({
             <div className="right w-30 background-theme h-full fixed">
                 <ChatList  />
                 <BotInput className/>
-                {console.log("AT APP!", this.props.location)}
+              
             </div>
             <div className="left w-70">
                 {this.props.children}

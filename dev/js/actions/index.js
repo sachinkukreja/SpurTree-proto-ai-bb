@@ -6,6 +6,7 @@ let chatlist = [];
 let contextid = "";
 let _selectedCategoryID = "";
 let _selectedCategory = "";
+let Color = "";
 let ordinalDict = {
     first: 0,
     second: 1,
@@ -39,14 +40,30 @@ export const SetCategoryID = (categoryID) => {
 
 }
 
-export const FetchProductsForCategory = (categoryId) => {
-    return dispatch => fetch(`https://api.bestbuy.com/v1/products((categoryPath.id=${categoryId}))?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=salePrice.dsc&show=name,salePrice,image,sku`)
+export const FetchProductsForCategory = (categoryId, sort_order = '') => {
+    return dispatch => fetch(`https://api.bestbuy.com/v1/products((categoryPath.id=${categoryId}))?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=${sort_order}&show=name,salePrice,image,sku`)
         .then(response => response.json())
         .then(json => dispatch(UpdateProducts(json)));
 }
 
-export const FetchProducts = (search_query) => {
-    return dispatch => fetch(`https://api.bestbuy.com/v1/products(name=${search_query})?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=salePrice.dsc`)
+export const FetchProducts = (search_query, sort_order = '') => {
+    return dispatch => fetch(`https://api.bestbuy.com/v1/products(name=${search_query}*)?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=${sort_order}`)
+        .then(response => response.json())
+        .then(json => dispatch(UpdateProducts(json)));
+}
+
+export const FetchProductsWithAttributes = (attributes, sort_order) => {
+
+    let params = `&`;
+    var Keys = Object.keys(attributes);
+    Keys.map((key)=> {
+        if (key != 'search' && key != 'sort') {
+            params += `${key}=${attributes[key]}`
+        }
+
+    });
+
+    return dispatch => fetch(`https://api.bestbuy.com/v1/products(name=${attributes.search}*${params})?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=${sort_order}`)
         .then(response => response.json())
         .then(json => dispatch(UpdateProducts(json)));
 }
@@ -80,36 +97,81 @@ function callIntent(topscoringIntent, entites, dialog) {
                 if (entites.length == 1) {
                     if (dialog.status != 'Finished') {
                         contextid = dialog.contextId;
+                    } else {
+                        contextid = "";
                     }
 
                     var firstEntityType = entites[0].type;
                     if (firstEntityType == "ProductCategory") {
                         _selectedCategory = entites[0].entity;
-                        const path = `/category/${_selectedCategory}?id=${_selectedCategoryID}`;
+                        const path = `/category/${_selectedCategory}?id=${_selectedCategoryID}&sort=salePrice.dsc`;
                         browserHistory.push(path);
                         dispatch(ChatChanged(`Here are the Top Products for ${_selectedCategory}`));
                         dispatch(ChatChanged(dialog.prompt));
                     } else if (firstEntityType == "Color") {
-                        console.log(location);
+                        Color = entites[0].entity;
+                        fetch(`https://api.bestbuy.com/v1/products(color=${Color}&(categoryPath.id=${_selectedCategoryID}))?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=salePrice.dsc&show=name,salePrice,image,sku`)
+                            .then(response => response.json())
+                            .then(json => dispatch(UpdateProducts(json)));
+                        dispatch(ChatChanged(dialog.prompt));
                     }
-
-
+                    else if (firstEntityType == "manufacturer") {
+                        fetch(`https://api.bestbuy.com/v1/products(color=${Color}&manufacturer=${entites[0].entity}&(categoryPath.id=${_selectedCategoryID}))?apiKey=zscfhepsyaq2kpjpvna6jyvm&pageSize=20&format=json&sort=salePrice.dsc&show=name,salePrice,image,sku`)
+                            .then(response => response.json())
+                            .then(json => dispatch(UpdateProducts(json)));
+                    }
                 }
 
                 break;
 
             case 'SearchProducts':
 
-                if (entites.length == 1) {
-                    var search_query = entites[0].entity;
-                    const path = `/products/?search=${search_query}`;
-                    browserHistory.push(path);
+                if (dialog.status != 'Finished') {
+                    contextid = dialog.contextId;
+                } else {
+                    contextid = "";
                 }
+
+                if (entites.length == 1) {
+                    var firstEntityType = entites[0].type;
+                    if (firstEntityType == "Product") {
+                        var search_query = entites[0].entity;
+                        const path = `/products/?search=${search_query}`;
+                        browserHistory.push(path);
+                        dispatch(ChatChanged(dialog.prompt));
+                    } else if (firstEntityType == "Color") {
+                        const path = location.pathname + location.search + `&color=${entites[0].entity}`;
+                        browserHistory.push(path);
+                        dispatch(ChatChanged(dialog.prompt));
+                    }
+                    else if (firstEntityType == "manufacturer") {
+                        const path = location.pathname + location.search + `&manufacturer=${entites[0].entity}`;
+                        browserHistory.push(path);
+                    }
+                } else if (entites.length > 1) {
+                    let searchterm = '';
+                    let params = ''
+
+
+                    entites.map((entity)=> {
+                        if (entity.type == 'Product') {
+                            searchterm = entity.entity;
+                        } else {
+                            params += `&${entity.type}=${entity.entity}`
+                        }
+
+                    });
+                    const path = `/products/?search=${searchterm}${params}`;
+                    browserHistory.push(path);
+                    dispatch(ChatChanged(dialog.prompt));
+
+                }
+
 
                 break;
 
             case 'SortProducts':
-                console.log('Sorting Products');
+
                 break;
             case 'FilterProducts' :
                 console.log('Filtering Products');
@@ -125,6 +187,7 @@ function callIntent(topscoringIntent, entites, dialog) {
 }
 
 export const UpdateProducts = (json) => {
+    console.log("Number of products received", json.products.count);
     return {
         type: 'PRODUCTS_RECEIVED',
         payload: json.products
