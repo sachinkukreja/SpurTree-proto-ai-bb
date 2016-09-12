@@ -1,0 +1,678 @@
+{
+  "luis_schema_version": "1.3.0",
+  "name": "Best Buy Shopping Bot",
+  "desc": "Best Buy Shopping Bot , similar to apparels shopping bot but on best buy database",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "AddToCart"
+    },
+    {
+      "name": "FilterProducts"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "ProductDetails"
+    },
+    {
+      "name": "SearchProducts"
+    },
+    {
+      "name": "SelectCategory"
+    },
+    {
+      "name": "SortProducts"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Color"
+    },
+    {
+      "name": "FilterAndSortTags",
+      "children": [
+        "Key",
+        "Value"
+      ]
+    },
+    {
+      "name": "manufacturer"
+    },
+    {
+      "name": "Product"
+    },
+    {
+      "name": "ProductCategory"
+    }
+  ],
+  "composites": [],
+  "bing_entities": [
+    "ordinal",
+    "percentage"
+  ],
+  "actions": [
+    {
+      "actionName": "AddToCart",
+      "intentName": "AddToCart",
+      "actionParameters": []
+    },
+    {
+      "actionName": "SortProducts",
+      "intentName": "SortProducts",
+      "actionParameters": []
+    },
+    {
+      "actionName": "ProductDetails",
+      "intentName": "ProductDetails",
+      "actionParameters": []
+    },
+    {
+      "actionName": "FilterProducts",
+      "intentName": "FilterProducts",
+      "actionParameters": []
+    },
+    {
+      "actionName": "SearchProducts",
+      "intentName": "SearchProducts",
+      "actionParameters": [
+        {
+          "parameterName": "Color",
+          "entityName": "Color",
+          "required": true
+        },
+        {
+          "parameterName": "Brand",
+          "entityName": "manufacturer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "actionName": "SelectCategory",
+      "intentName": "SelectCategory",
+      "actionParameters": [
+        {
+          "parameterName": "Color",
+          "entityName": "Color",
+          "required": true
+        },
+        {
+          "parameterName": "Brand ",
+          "entityName": "manufacturer",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "model_features": [
+    {
+      "name": "Category Names",
+      "mode": true,
+      "words": "Gift Ideas,Toys,TV & Home Theater,Audio,Car Electronics & GPS,Cameras & Camcorders,Digital Camera Accessories,Computers & Tablets,Projectors,Movies & Music,Video Games,Cell Phones,Appliances,Washers & Dryers",
+      "activated": true
+    },
+    {
+      "name": "Colors",
+      "mode": true,
+      "words": "red,black,blue,green,grey,white,gold,golden,silver,orange,purple,lime,orange",
+      "activated": true
+    },
+    {
+      "name": "Brands",
+      "mode": true,
+      "words": "samsung,Samsung,Nokia,acer,Acer,MSI,msi,asus,ASUS,Toshiba,toshiba,dell,Dell,Bose,Sony,sony,Apple,apple,Denon,denon",
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "select electronics",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "add to my cart",
+      "intent": "AddToCart",
+      "entities": []
+    },
+    {
+      "text": "select car electronics & gps",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "gift ideas",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 0,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "i am looking for earphones",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 4,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "select cell phones",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "i am looking for headphones",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 4,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "sort products by rating, low to high",
+      "intent": "SortProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "i want a laptop",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "add this to my cart",
+      "intent": "AddToCart",
+      "entities": []
+    },
+    {
+      "text": "sort products by price range , low to high",
+      "intent": "SortProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 6,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "movies & music",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "filter products by color , black",
+      "intent": "FilterProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "i am looking for a laptop",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "filter products by brand , samsung",
+      "intent": "FilterProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "add the second one to cart",
+      "intent": "AddToCart",
+      "entities": []
+    },
+    {
+      "text": "i want to buy the first one",
+      "intent": "AddToCart",
+      "entities": []
+    },
+    {
+      "text": "filter products by name",
+      "intent": "SortProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "filter products by rating, lowest first",
+      "intent": "FilterProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 5,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "i want a camera",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "select movies & music",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "sort products by name , a-z",
+      "intent": "SortProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 5,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "i want headphones",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "filter products by price range , low to high",
+      "intent": "SortProducts",
+      "entities": [
+        {
+          "entity": "FilterAndSortTags::Key",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "FilterAndSortTags::Value",
+          "startPos": 6,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "add the first one to cart",
+      "intent": "AddToCart",
+      "entities": []
+    },
+    {
+      "text": "select gift ideas",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "select tv & home theater",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "i want an action figure",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "select toys",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 1,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "i am looking for a tv",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "i want an iphone",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "show me details of the first one",
+      "intent": "ProductDetails",
+      "entities": []
+    },
+    {
+      "text": "show me the details for this one",
+      "intent": "ProductDetails",
+      "entities": []
+    },
+    {
+      "text": "show me the details of the second one",
+      "intent": "ProductDetails",
+      "entities": []
+    },
+    {
+      "text": "black",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "blue",
+      "intent": "SelectCategory",
+      "entities": []
+    },
+    {
+      "text": "color: blue",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "yes, i'd like to see products only by samsung",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "manufacturer",
+          "startPos": 11,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "yes, black",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "green",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "yes , silver",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "yes, show me laptops by acer",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 4,
+          "endPos": 4
+        },
+        {
+          "entity": "manufacturer",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "samsung",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "manufacturer",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    },
+    {
+      "text": "yes, toshiba",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "manufacturer",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "yes, golden",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "Color",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "computers & tablets",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "washers & dryers",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "ProductCategory",
+          "startPos": 0,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "yes, sony",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "manufacturer",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "show me only black ones",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me laptops by samsung",
+      "intent": "SearchProducts",
+      "entities": [
+        {
+          "entity": "Product",
+          "startPos": 2,
+          "endPos": 2
+        },
+        {
+          "entity": "manufacturer",
+          "startPos": 4,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "denon",
+      "intent": "SelectCategory",
+      "entities": [
+        {
+          "entity": "manufacturer",
+          "startPos": 0,
+          "endPos": 0
+        }
+      ]
+    }
+  ]
+}
